@@ -1,11 +1,12 @@
-package com.srm.expensetracker;
+package com.srm.expensetracker.adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import com.srm.expensetracker.Models.Expense;
+import com.srm.expensetracker.models.Expense;
+import com.srm.expensetracker.R;
 
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class ExpenseListAdapter extends RecyclerView.Adapter<ExpenseListAdapter.
         }
     }
 
-    ExpenseListAdapter(List<Expense> dataSet) {
+    public ExpenseListAdapter(List<Expense> dataSet) {
         this.dataSet = dataSet;
     }
 

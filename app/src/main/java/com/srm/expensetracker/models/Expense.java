@@ -1,4 +1,4 @@
-package com.srm.expensetracker.Models;
+package com.srm.expensetracker.models;
 
 public class Expense {
     private String name;

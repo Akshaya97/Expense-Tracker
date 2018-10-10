@@ -1,4 +1,4 @@
-package com.srm.expensetracker;
+package com.srm.expensetracker.activities;
 
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -14,6 +14,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.srm.expensetracker.fragments.ExpenseListFragment;
+import com.srm.expensetracker.R;
 
 public class NavigationActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
