@@ -38,8 +38,8 @@ public class ExpenseListAdapter extends RecyclerView.Adapter<ExpenseListAdapter.
     @Override
     public void onBindViewHolder(ExpenseViewHolder viewHolder, int position) {
         Expense expense = dataSet.get(position);
-        viewHolder.amountTextView.setText(expense.getName());
         viewHolder.nameTextView.setText(expense.getName());
+        viewHolder.amountTextView.setText(expense.getAmountInCurrency());
     }
 
     @Override

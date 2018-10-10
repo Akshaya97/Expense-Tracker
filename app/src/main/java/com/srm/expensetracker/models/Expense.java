@@ -1,5 +1,7 @@
 package com.srm.expensetracker.models;
 
+import java.text.NumberFormat;
+
 public class Expense {
     private String name;
     private Double amount;
@@ -22,6 +24,11 @@ public class Expense {
 
     public Double getAmount() {
         return amount;
+    }
+
+    public String getAmountInCurrency() {
+        NumberFormat currencyInstance = NumberFormat.getCurrencyInstance();
+        return currencyInstance.format(amount);
     }
 
     public String getName() {
