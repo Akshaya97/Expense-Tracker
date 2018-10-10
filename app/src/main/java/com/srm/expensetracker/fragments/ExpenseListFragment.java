@@ -10,11 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.srm.expensetracker.adapters.ExpenseListAdapter;
-import com.srm.expensetracker.models.Expense;
+import com.srm.expensetracker.db.Database;
 import com.srm.expensetracker.R;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class ExpenseListFragment extends Fragment {
 
@@ -25,13 +23,8 @@ public class ExpenseListFragment extends Fragment {
         RecyclerView recyclerView = rootView.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        // todo: fix the datasource
-        List<Expense> expenseList = new ArrayList<Expense>();
-        expenseList.add(new Expense("name", 2.2));
-        expenseList.add(new Expense("name", 4.2));
-        expenseList.add(new Expense("name", 5.2));
-
-        RecyclerView.Adapter adapter = new ExpenseListAdapter(expenseList);
+        Database db = new Database(getActivity());
+        RecyclerView.Adapter adapter = new ExpenseListAdapter(db.getAllExpenses());
         recyclerView.setAdapter(adapter);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         return rootView;
