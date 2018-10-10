@@ -1,8 +1,10 @@
 package com.srm.expensetracker;
 
+import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -75,10 +77,13 @@ public class NavigationActivity extends AppCompatActivity
 
         if (id == R.id.home) {
 
-        } else if (id == R.id.incomelist) {
+        } else if (id == R.id.income_list) {
 
-        } else if (id == R.id.expenselist) {
-
+        } else if (id == R.id.expense_list) {
+            Fragment fragment = new ExpenseListFragment();
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.frame_content, fragment);
+            fragmentTransaction.commit();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

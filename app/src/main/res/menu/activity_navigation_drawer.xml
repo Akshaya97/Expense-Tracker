@@ -9,11 +9,11 @@
             android:icon="@drawable/ic_home"
             android:title="Home" />
         <item
-            android:id="@+id/incomelist"
+            android:id="@+id/income_list"
             android:icon="@drawable/ic_income"
             android:title="Income List" />
         <item
-            android:id="@+id/expenselist"
+            android:id="@+id/expense_list"
             android:icon="@drawable/ic_expense"
             android:title="Expense List" />
     </group>
