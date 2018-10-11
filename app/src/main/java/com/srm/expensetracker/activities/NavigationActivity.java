@@ -18,6 +18,7 @@ import android.view.MenuItem;
 
 import com.srm.expensetracker.fragments.ExpenseListFragment;
 import com.srm.expensetracker.R;
+import com.srm.expensetracker.fragments.IncomeListFragment;
 
 public class NavigationActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -83,23 +84,28 @@ public class NavigationActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
+        Fragment fragment = null;
 
         if (id == R.id.home) {
             toolbar.setTitle(R.string.home);
             floating_action_button.setVisibility(View.INVISIBLE);
+            //todo: Update the fragment
+            fragment = new IncomeListFragment();
         } else if (id == R.id.income_list) {
             toolbar.setTitle(R.string.income_list);
             floating_action_button.setVisibility(View.VISIBLE);
             isExpenseActivity = false;
+            fragment = new IncomeListFragment();
         } else if (id == R.id.expense_list) {
             toolbar.setTitle(R.string.expense_list);
             isExpenseActivity = true;
             floating_action_button.setVisibility(View.VISIBLE);
-            Fragment fragment = new ExpenseListFragment();
-            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.frame_content, fragment);
-            fragmentTransaction.commit();
+            fragment = new ExpenseListFragment();
         }
+
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.frame_content, fragment);
+        fragmentTransaction.commit();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

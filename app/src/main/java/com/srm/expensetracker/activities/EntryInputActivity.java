@@ -63,7 +63,7 @@ public class EntryInputActivity extends Activity {
         if (isExpense) {
             db.createExpense(name, amount);
         } else {
-            // todo: Change to income
+            db.createIncome(name, amount);
         }
 
         Integer message = isExpense ? R.string.expense_entry_added : R.string.income_entry_added;

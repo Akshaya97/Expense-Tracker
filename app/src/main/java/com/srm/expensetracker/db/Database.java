@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.srm.expensetracker.models.Expense;
+import com.srm.expensetracker.models.Income;
 
 
 public class Database {
@@ -40,16 +41,45 @@ public class Database {
         return list;
     }
 
+    public List<Income> getAllIncomes() {
+        openDatabase();
+        String query = "Select name, amount from Incomes";
+        Cursor resultSet = database.rawQuery(query,null);
+        List<Income> list = new ArrayList<Income>();
+
+        if (resultSet .moveToFirst()) {
+            while (!resultSet.isAfterLast()) {
+                Income income= new Income();
+                income.setName(resultSet.getString(resultSet.getColumnIndex("name")));
+                income.setAmount(resultSet.getDouble(resultSet.getColumnIndex("amount")));
+                list.add(income);
+                resultSet.moveToNext();
+            }
+        }
+
+        resultSet.close();
+        closeDatabase();
+
+        return list;
+    }
+
     public void createExpense(String name, Double amount) {
         openDatabase();
-        database.execSQL("CREATE TABLE IF NOT EXISTS Expenses(name VARCHAR, amount double);");
         database.execSQL("INSERT INTO Expenses (name, amount) VALUES('"+name+"','"+amount+"');");
+        closeDatabase();
+    }
+
+    public void createIncome(String name, Double amount) {
+        openDatabase();
+        database.execSQL("INSERT INTO Incomes (name, amount) VALUES('"+name+"','"+amount+"');");
         closeDatabase();
     }
 
     private void openDatabase() {
         if (database == null || !database.isOpen()) {
             database = context.openOrCreateDatabase(databaseName,Context.MODE_PRIVATE,null);
+            database.execSQL("CREATE TABLE IF NOT EXISTS Expenses(name VARCHAR, amount double);");
+            database.execSQL("CREATE TABLE IF NOT EXISTS Incomes(name VARCHAR, amount double);");
         }
     }
 
