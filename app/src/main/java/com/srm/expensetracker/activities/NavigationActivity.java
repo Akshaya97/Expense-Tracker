@@ -1,5 +1,6 @@
 package com.srm.expensetracker.activities;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -21,6 +22,9 @@ import com.srm.expensetracker.R;
 public class NavigationActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private FloatingActionButton floating_action_button;
+    private Boolean isExpenseActivity = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,14 +32,14 @@ public class NavigationActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        floating_action_button = findViewById(R.id.floating_action_button);
+        floating_action_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                showAddEntryInputActivity();
             }
         });
+        floating_action_button.setVisibility(View.INVISIBLE);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -79,10 +83,13 @@ public class NavigationActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.home) {
-
+            floating_action_button.setVisibility(View.INVISIBLE);
         } else if (id == R.id.income_list) {
-
+            floating_action_button.setVisibility(View.VISIBLE);
+            isExpenseActivity = false;
         } else if (id == R.id.expense_list) {
+            isExpenseActivity = true;
+            floating_action_button.setVisibility(View.VISIBLE);
             Fragment fragment = new ExpenseListFragment();
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.frame_content, fragment);
@@ -92,5 +99,11 @@ public class NavigationActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void showAddEntryInputActivity() {
+        Intent intent = new Intent(this, EntryInputActivity.class);
+        intent.putExtra("isExpense", isExpenseActivity);
+        startActivity(intent);
     }
 }

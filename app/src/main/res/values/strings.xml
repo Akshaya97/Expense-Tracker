@@ -6,6 +6,15 @@
 
     <string name="action_settings">Settings</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="add_expense_entry">Add expense entry</string>
+    <string name="add_income_entry">Add income entry</string>
+    <string name="expense_name">Expense name</string>
+    <string name="income_name">Income source</string>
+    <string name="amount">Amount</string>
+    <string name="expense_name_empty">Please enter name of the expense</string>
+    <string name="income_name_empty">Please enter source of income</string>
+    <string name="amount_empty">Please enter amount</string>
+    <string name="amount_is_zero">Please enter amount greater than zero</string>
+    <string name="expense_entry_added">Expense entry added successfully</string>
+    <string name="income_entry_added">Income entry added successfully</string>
 </resources>

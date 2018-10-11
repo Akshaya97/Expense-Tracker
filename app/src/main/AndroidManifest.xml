@@ -19,7 +19,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ExpenseListActivity"></activity>
+        <activity android:name=".activities.EntryInputActivity"
+            android:theme="@style/DialogTheme" />
     </application>
 
 </manifest>
