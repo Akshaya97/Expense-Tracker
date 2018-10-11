@@ -22,6 +22,7 @@ import com.srm.expensetracker.R;
 public class NavigationActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    Toolbar toolbar;
     private FloatingActionButton floating_action_button;
     private Boolean isExpenseActivity = false;
 
@@ -29,8 +30,9 @@ public class NavigationActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        toolbar.setTitle(R.string.home);
 
         floating_action_button = findViewById(R.id.floating_action_button);
         floating_action_button.setOnClickListener(new View.OnClickListener() {
@@ -83,11 +85,14 @@ public class NavigationActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.home) {
+            toolbar.setTitle(R.string.home);
             floating_action_button.setVisibility(View.INVISIBLE);
         } else if (id == R.id.income_list) {
+            toolbar.setTitle(R.string.income_list);
             floating_action_button.setVisibility(View.VISIBLE);
             isExpenseActivity = false;
         } else if (id == R.id.expense_list) {
+            toolbar.setTitle(R.string.expense_list);
             isExpenseActivity = true;
             floating_action_button.setVisibility(View.VISIBLE);
             Fragment fragment = new ExpenseListFragment();
