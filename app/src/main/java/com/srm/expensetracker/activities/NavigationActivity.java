@@ -5,7 +5,6 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -20,6 +19,7 @@ import android.widget.Toast;
 
 import com.srm.expensetracker.fragments.ExpenseListFragment;
 import com.srm.expensetracker.R;
+import com.srm.expensetracker.fragments.HomeFragment;
 import com.srm.expensetracker.fragments.IncomeListFragment;
 
 public class NavigationActivity extends AppCompatActivity
@@ -36,7 +36,6 @@ public class NavigationActivity extends AppCompatActivity
         setContentView(R.layout.activity_navigation);
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        toolbar.setTitle(R.string.home);
 
         floating_action_button = findViewById(R.id.floating_action_button);
         floating_action_button.setOnClickListener(new View.OnClickListener() {
@@ -45,16 +44,17 @@ public class NavigationActivity extends AppCompatActivity
                 showAddEntryInputActivity();
             }
         });
-        floating_action_button.setVisibility(View.INVISIBLE);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+        setHomeFragment();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
     }
 
     @Override
@@ -96,32 +96,45 @@ public class NavigationActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
-        Fragment fragment = null;
 
         if (id == R.id.home) {
-            toolbar.setTitle(R.string.home);
-            floating_action_button.setVisibility(View.INVISIBLE);
-            //todo: Update the fragment
-            fragment = new IncomeListFragment();
+            setHomeFragment();
         } else if (id == R.id.income_list) {
-            toolbar.setTitle(R.string.income_list);
-            floating_action_button.setVisibility(View.VISIBLE);
-            isExpenseActivity = false;
-            fragment = new IncomeListFragment();
+            setIncomeListFragment();
         } else if (id == R.id.expense_list) {
-            toolbar.setTitle(R.string.expense_list);
-            isExpenseActivity = true;
-            floating_action_button.setVisibility(View.VISIBLE);
-            fragment = new ExpenseListFragment();
+            setExpenseListFragment();
         }
 
+        return true;
+    }
+
+    private void setHomeFragment() {
+        toolbar.setTitle(R.string.home);
+        floating_action_button.setVisibility(View.INVISIBLE);
+        setFragmentToDrawer(new HomeFragment());
+    }
+
+    private void setIncomeListFragment() {
+        toolbar.setTitle(R.string.income_list);
+        floating_action_button.setVisibility(View.VISIBLE);
+        isExpenseActivity = false;
+        setFragmentToDrawer(new IncomeListFragment());
+    }
+
+    private void setExpenseListFragment() {
+        toolbar.setTitle(R.string.expense_list);
+        isExpenseActivity = true;
+        floating_action_button.setVisibility(View.VISIBLE);
+        setFragmentToDrawer(new ExpenseListFragment());
+    }
+
+    private void setFragmentToDrawer(Fragment fragment) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.frame_content, fragment);
         fragmentTransaction.commit();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
-        return true;
     }
 
     private void showAddEntryInputActivity() {

@@ -25,7 +25,7 @@ public class Database {
         Cursor resultSet = database.rawQuery(query,null);
         List<Expense> list = new ArrayList<Expense>();
 
-        if (resultSet .moveToFirst()) {
+        if (resultSet.moveToFirst()) {
             while (!resultSet.isAfterLast()) {
                 Expense expense = new Expense();
                 expense.setName(resultSet.getString(resultSet.getColumnIndex("name")));
@@ -39,6 +39,28 @@ public class Database {
         closeDatabase();
 
         return list;
+    }
+
+    public Double getTotalIncome() {
+        openDatabase();
+        String query = "Select SUM(amount) as Total from Incomes";
+        Cursor resultSet = database.rawQuery(query, null);
+
+        if (resultSet.moveToFirst()) {
+            return resultSet.getDouble(resultSet.getColumnIndex("Total"));
+        }
+        return 0.0;
+    }
+
+    public Double getTotalExpense() {
+        openDatabase();
+        String query = "Select SUM(amount) as Total from Expenses";
+        Cursor resultSet = database.rawQuery(query, null);
+
+        if (resultSet.moveToFirst()) {
+            return resultSet.getDouble(resultSet.getColumnIndex("Total"));
+        }
+        return 0.0;
     }
 
     public List<Income> getAllIncomes() {
