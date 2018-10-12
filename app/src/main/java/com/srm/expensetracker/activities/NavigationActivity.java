@@ -19,7 +19,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseAuth;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.srm.expensetracker.db.Database;
 import com.srm.expensetracker.fragments.ExpenseListFragment;
 import com.srm.expensetracker.R;
@@ -33,6 +37,7 @@ public class NavigationActivity extends AppCompatActivity
     private FloatingActionButton floating_action_button;
     private Boolean isExpenseActivity = false;
     private Boolean doubleBackToExitPressedOnce = false;
+    private GoogleApiClient apiClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +63,7 @@ public class NavigationActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
+        setupGoogleClient();
     }
 
     @Override
@@ -163,8 +168,17 @@ public class NavigationActivity extends AppCompatActivity
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        FirebaseAuth.getInstance().signOut();
-                        startActivity(new Intent(NavigationActivity.this, LoginActivity.class));
+                        if (!apiClient.isConnected()) {
+                            setupGoogleClient();
+                        }
+                        Auth.GoogleSignInApi.signOut(apiClient).setResultCallback(
+                                new ResultCallback<Status>() {
+                                    @Override
+                                    public void onResult(Status status) {
+                                        startActivity(new Intent(NavigationActivity.this, LoginActivity.class));
+                                        finish();
+                                    }
+                                });
                     }})
                 .setNegativeButton(android.R.string.no, null).show();
     }
@@ -202,5 +216,17 @@ public class NavigationActivity extends AppCompatActivity
         Intent intent = new Intent(this, EntryInputActivity.class);
         intent.putExtra("isExpense", isExpenseActivity);
         startActivity(intent);
+    }
+
+    private void setupGoogleClient() {
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+        apiClient = new GoogleApiClient.Builder(this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
+        if (!apiClient.isConnected()) {
+            apiClient.connect();
+        }
     }
 }

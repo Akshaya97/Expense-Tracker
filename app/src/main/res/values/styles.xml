@@ -19,7 +19,11 @@
 
     <!-- Base application theme. -->
 
-    <!-- Base application theme. -->
+    <!-- Splash screen theme. -->
+    <style name="SplashTheme" parent="AppTheme.NoActionBar">
+        <item name="android:windowBackground">@drawable/drawable_splash_background</item>
+    </style>
+    <!-- Splash screen theme. -->
 
     <!-- Dialog theme. -->
     <style name="DialogTheme" parent="@android:style/Theme.Dialog">

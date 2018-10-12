@@ -30,7 +30,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
-
         gsoClient = GoogleSignIn.getClient(this, gso);
     }
 
@@ -57,6 +56,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             startActivity(new Intent(this, NavigationActivity.class));
+            finish();
         } catch (ApiException e) {
             Toast.makeText(LoginActivity.this,
                     getString(R.string.login_unsuccessfull), Toast.LENGTH_SHORT).show();
