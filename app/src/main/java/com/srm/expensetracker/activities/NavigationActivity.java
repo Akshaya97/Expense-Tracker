@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -17,9 +18,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
@@ -64,6 +68,20 @@ public class NavigationActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         setupGoogleClient();
+
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+        TextView emailTextView = navigationView.findViewById(R.id.user_email_text_view);
+        TextView nameTextView = navigationView.findViewById(R.id.user_name_text_view);
+        try {
+            String email = account.getEmail();
+            String name = account.getGivenName();
+            if (email != null) {
+                emailTextView.setText(email);
+            }
+            if (name != null) {
+                nameTextView.setText(name);
+            }
+        } catch(Exception e) { }
     }
 
     @Override

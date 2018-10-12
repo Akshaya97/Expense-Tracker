@@ -29,6 +29,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
+                .requestProfile()
                 .build();
         gsoClient = GoogleSignIn.getClient(this, gso);
     }
