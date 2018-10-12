@@ -9,6 +9,7 @@
     <string name="reset_data">Reset Data</string>
     <string name="reset_description">Are you sure you want to reset data?</string>
     <string name="reset_success">Data is cleared successfully.</string>
+    <string name="login_unsuccessfull">Login failed. Android API should be 27 or higher.</string>
     <string name="share_dashboard">Share Dashboard</string>
     <string name="you_have">Amount You Have</string>
     <string name="you_owe">Amount You Owe</string>

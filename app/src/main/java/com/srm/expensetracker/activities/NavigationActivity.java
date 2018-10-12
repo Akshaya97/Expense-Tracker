@@ -19,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.srm.expensetracker.db.Database;
 import com.srm.expensetracker.fragments.ExpenseListFragment;
 import com.srm.expensetracker.R;
@@ -162,7 +163,8 @@ public class NavigationActivity extends AppCompatActivity
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
                     public void onClick(DialogInterface dialog, int whichButton) {
-
+                        FirebaseAuth.getInstance().signOut();
+                        startActivity(new Intent(NavigationActivity.this, LoginActivity.class));
                     }})
                 .setNegativeButton(android.R.string.no, null).show();
     }
