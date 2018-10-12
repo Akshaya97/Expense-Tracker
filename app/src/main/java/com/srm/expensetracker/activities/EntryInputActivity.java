@@ -3,6 +3,7 @@ package com.srm.expensetracker.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
@@ -69,5 +70,6 @@ public class EntryInputActivity extends Activity {
         Integer message = isExpense ? R.string.expense_entry_added : R.string.income_entry_added;
         Toast.makeText(getApplicationContext(), getString(message), Toast.LENGTH_SHORT).show();
         finish();
+        LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent("Entry Added"));
     }
 }
