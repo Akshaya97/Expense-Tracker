@@ -6,6 +6,7 @@
 
     <string name="action_settings">Settings</string>
 
+    <string name="share_dashboard">Share Dashboard</string>
     <string name="you_have">Amount You Have</string>
     <string name="you_owe">Amount You Owe</string>
     <string name="total_income">Total Income</string>

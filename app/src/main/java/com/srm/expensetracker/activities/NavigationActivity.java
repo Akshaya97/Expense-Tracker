@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.srm.expensetracker.db.Database;
 import com.srm.expensetracker.fragments.ExpenseListFragment;
 import com.srm.expensetracker.R;
 import com.srm.expensetracker.fragments.HomeFragment;
@@ -103,6 +104,8 @@ public class NavigationActivity extends AppCompatActivity
             setIncomeListFragment();
         } else if (id == R.id.expense_list) {
             setExpenseListFragment();
+        } else if (id == R.id.share) {
+            showShareText();
         }
 
         return true;
@@ -128,11 +131,31 @@ public class NavigationActivity extends AppCompatActivity
         setFragmentToDrawer(new ExpenseListFragment());
     }
 
+    private void showShareText() {
+        closeDrawer();
+
+        Database db = new Database(this);
+        Double totalExpense = db.getTotalExpense();
+        Double totalIncome = db.getTotalIncome();
+        Double netAmount = totalIncome - totalExpense;
+        String shareText = "My current Dashboard!\n\nNet amount: " + netAmount.toString() + "\nTotal income: "
+                + totalIncome.toString() + "\nTotal expense: " + totalExpense.toString();
+
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, shareText);
+        sendIntent.setType("text/plain");
+        startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.share_dashboard)));
+    }
+
     private void setFragmentToDrawer(Fragment fragment) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.frame_content, fragment);
         fragmentTransaction.commit();
+        closeDrawer();
+    }
 
+    private void closeDrawer() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
     }
