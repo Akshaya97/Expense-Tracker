@@ -1,11 +1,13 @@
 package com.srm.expensetracker.activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -87,11 +89,15 @@ public class NavigationActivity extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.action_logout) {
+            askLogoutConfirmation();
+        } else if (id == R.id.action_reset) {
+            askResetConfirmation();
+        } else if (id == R.id.action_share) {
+            showShareText();
         }
 
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 
     @Override
@@ -146,6 +152,36 @@ public class NavigationActivity extends AppCompatActivity
         sendIntent.putExtra(Intent.EXTRA_TEXT, shareText);
         sendIntent.setType("text/plain");
         startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.share_dashboard)));
+    }
+
+    private void askLogoutConfirmation() {
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.logout)
+                .setMessage(R.string.logout_description)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int whichButton) {
+
+                    }})
+                .setNegativeButton(android.R.string.no, null).show();
+    }
+
+    private void askResetConfirmation() {
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.reset_data)
+                .setMessage(R.string.reset_description)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        Database db = new Database(NavigationActivity.this);
+                        db.clearData();
+                        Toast.makeText(NavigationActivity.this,
+                                getString(R.string.reset_success), Toast.LENGTH_SHORT).show();
+                        setHomeFragment();
+                    }})
+                .setNegativeButton(android.R.string.no, null).show();
     }
 
     private void setFragmentToDrawer(Fragment fragment) {

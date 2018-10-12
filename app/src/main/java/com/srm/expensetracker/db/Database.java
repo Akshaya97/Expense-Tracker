@@ -97,6 +97,13 @@ public class Database {
         closeDatabase();
     }
 
+    public void clearData() {
+        openDatabase();
+        database.execSQL("Drop Table if exists Expenses");
+        database.execSQL("Drop Table if exists Incomes");
+        closeDatabase();
+    }
+
     private void openDatabase() {
         if (database == null || !database.isOpen()) {
             database = context.openOrCreateDatabase(databaseName,Context.MODE_PRIVATE,null);
