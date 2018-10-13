@@ -36,6 +36,13 @@ import com.srm.expensetracker.fragments.ExpenseListFragment;
 import com.srm.expensetracker.R;
 import com.srm.expensetracker.fragments.HomeFragment;
 import com.srm.expensetracker.fragments.IncomeListFragment;
+import com.srm.expensetracker.models.Expense;
+import com.srm.expensetracker.retrofit.EntryService;
+import com.srm.expensetracker.retrofit.RetrofitClient;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class NavigationActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -99,6 +106,8 @@ public class NavigationActivity extends AppCompatActivity
 
         LocalBroadcastManager.getInstance(this).registerReceiver(messageReceiver,
                 new IntentFilter("Entry Added"));
+
+        getDataFromRetrofit();
     }
 
     @Override
@@ -269,5 +278,20 @@ public class NavigationActivity extends AppCompatActivity
         if (!apiClient.isConnected()) {
             apiClient.connect();
         }
+    }
+
+    private void getDataFromRetrofit() {
+        EntryService service = RetrofitClient.instance().create(EntryService.class);
+        service.getEntries().enqueue(new Callback<Expense>() {
+            @Override
+            public void onResponse(Call<Expense> call, Response<Expense> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<Expense> call, Throwable t) {
+
+            }
+        });
     }
 }
